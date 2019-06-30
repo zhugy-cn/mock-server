@@ -27,6 +27,21 @@ for (let i = 0; i < count; i++) {
         return list;
       },
 
+      orderList: () => {
+        var len = Math.ceil(Math.random() * 4)
+        var list = [];
+        for (let index = 0; index < len; index++) {
+          list.push(Mock.mock({
+            id: Random.guid(),
+            name: Random.ctitle(5, 12),
+            "count|2-10": 0,
+            "price|100-50.2-2": 0,
+            img: Random.image("200x200", Random.color()),
+          }));
+        }
+        return list;
+      },
+
       commentList: () => {
         if (i % 4 == 0) {
           return [];
@@ -78,7 +93,7 @@ for (let i = 0; i < count; i++) {
 }
 
 router.get("/getList", async (ctx, next) => {
-  let { page = 1, limit = 20, status } = ctx.query;
+  let { page = 1, limit = 20, type: status } = ctx.query;
   let dataList = [];
   if (status) {
     dataList = List.filter((item, index) => item.status == status);
@@ -88,9 +103,12 @@ router.get("/getList", async (ctx, next) => {
   const pageList = dataList.filter(
     (item, index) => index < limit * page && index >= limit * (page - 1)
   );
-  ctx.success({
-    count: List.length,
-    data: pageList
-  });
+  ctx.body = {
+    code: 0,
+    data: {
+      count: List.length,
+      list: pageList
+    },
+  }
 });
 module.exports = router;
