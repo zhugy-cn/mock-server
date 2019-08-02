@@ -28,7 +28,7 @@ for (let i = 0; i < count; i++) {
       },
 
       orderList: () => {
-        var len = Math.ceil(Math.random() * 4);
+        var len = Math.ceil(Math.random() * 3);
         var list = [];
         for (let index = 0; index < len; index++) {
           list.push(
@@ -95,10 +95,11 @@ for (let i = 0; i < count; i++) {
 }
 
 router.get("/getList", async (ctx, next) => {
-  let { page = 1, limit = 20, type: status } = ctx.query;
+  let { page = 1, limit = 20, type } = ctx.query;
   let dataList = [];
-  if (status) {
-    dataList = List.filter((item, index) => item.status == status);
+
+  if (type && type != 0) {
+    dataList = List.filter((item, index) => item.type == type);
   } else {
     dataList = List;
   }
@@ -184,6 +185,39 @@ router.get("/getData", async (ctx, next) => {
     data: data,
     code: 0
   };
+});
+
+// 雪花啤酒
+
+
+
+let beerData = [];
+let beerCount = 120
+for (let index = 0; index < beerCount; index++) {
+  beerData.push(
+    Mock.mock({
+      id: Random.guid(), // id
+      name: Random.ctitle(5, 12), // 随机生成一句中文标题。
+      thumb_img: Random.image("200x200", Random.color()),
+      "price|100-50.2": 0,
+      created_at: Random.datetime("yyyy-MM-dd HH:mm:ss")
+    })
+  );
+}
+router.get("/beer", async (ctx, next) => {
+  let { page = 1, page_size = 20, type } = ctx.query;
+  let dataList = [];
+  if (type && type != 0) {
+    dataList = beerData.filter((item, index) => item.type == type);
+  } else {
+    dataList = beerData;
+  }
+  const pageList = dataList.filter(
+    (item, index) => index < page_size * page && index >= page_size * (page - 1)
+  );
+  ctx.body = {
+    data:pageList
+  }
 });
 
 module.exports = router;
