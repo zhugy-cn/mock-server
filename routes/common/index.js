@@ -22,4 +22,13 @@ router.get("/getBanner", async (ctx, next) => {
   };
 });
 
+// 获取轮播图
+router.get("/getTotalCount", async (ctx, next) => {
+  let { total = 15 } = ctx.query;
+  ctx.body = {
+    data: total,
+    code: 0
+  };
+});
+
 module.exports = router;
