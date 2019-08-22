@@ -19,6 +19,12 @@ const common = require("./routes/common/index.js");
 const order = require("./routes/order/index.js");
 const article = require("./routes/article/index.js");
 
+
+// pm2 list
+// pm2 reload www
+
+
+
 // error handler
 onerror(app);
 
@@ -47,6 +53,7 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
+
 
 // routes
 app.use(index.routes(), index.allowedMethods());
