@@ -22,7 +22,7 @@
     "koa2-cors": "^2.0.6",
     "koa2-response": "^2.0.2",
     "mockjs": "^1.0.1-beta3",
-    "pug": "^2.0.0-rc.1"
+    "pug": "^3.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.8.1"
